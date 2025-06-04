@@ -4,6 +4,7 @@ module.exports = {
     extend: {
       fontFamily: {
         mochiy: ["'Mochiy Pop P One'", 'sans-serif'],
+        rye: ["'Rye'", 'serif'],
       },
     },
   },

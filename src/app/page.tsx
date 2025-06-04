@@ -5,10 +5,11 @@ import { Menu, X } from 'lucide-react'
 
 const productes = [
   {
-    nom: 'Cabrit tallat de pastura lliure',
+    nom: 'Cabrit tallat',
     imatge: '/imatges/Cabtrittallat.jpg',
     descripcio:
-      'Carn de cabrit criada en llibertat al Parc Rural de Montserrat, amb un sabor autèntic, saludable i natural. Tallada a mida, fresca i perfecta per a cuina tradicional o creativa.',
+      'Cabrits criats com s’ha fet tota la vida: amb llet de la mare i pastura del camp, sense pinso ni presses. Són animals petits, d’uns 4 a 5 kg (nets), amb una carn ben tendra i saborosa, perfecta per cuinar al forn o a la brasa. Producte de proximitat, fet amb estima i respecte per la terra.',
+    preu: '30€/kg (IVA inclòs)'
   },
 ]
 
@@ -26,9 +27,8 @@ function Estrelles({ valor, setValor }: EstrellesProps) {
           type="button"
           aria-label={`${i} estrella${i > 1 ? 's' : ''}`}
           onClick={() => setValor(i)}
-          className={`text-2xl ${
-            i <= valor ? 'text-yellow-400' : 'text-gray-300'
-          } focus:outline-none`}
+          className={`text-2xl ${i <= valor ? 'text-yellow-400' : 'text-gray-300'
+            } focus:outline-none`}
         >
           ★
         </button>
@@ -41,6 +41,7 @@ type Comentari = {
   id: number
   text: string
   valoracio: number
+  nom: string
 }
 
 export default function RocGonzalez() {
@@ -48,6 +49,12 @@ export default function RocGonzalez() {
   const [comentaris, setComentaris] = useState<Comentari[]>([])
   const [nouComentari, setNouComentari] = useState('')
   const [novaValoracio, setNovaValoracio] = useState(0)
+  const [nomClient, setNomClient] = useState('')
+  const [errors, setErrors] = useState({
+    nom: '',
+    comentari: '',
+    valoracio: '',
+  })
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -69,23 +76,47 @@ export default function RocGonzalez() {
     }
   }, [comentaris])
 
-  function enviarComentari(e: React.FormEvent) {
-    e.preventDefault()
-    if (nouComentari.trim() === '' || novaValoracio === 0) {
-      alert('Si us plau, escriu un comentari i selecciona una valoració.')
-      return
+  function enviarComentari() {
+    let valid = true
+    const errorsTemp = { nom: '', comentari: '', valoracio: '' }
+
+    if (nomClient.trim().length === 0) {
+      errorsTemp.nom = 'El nom és obligatori'
+      valid = false
     }
+
+    if (nouComentari.trim().length === 0) {
+      errorsTemp.comentari = 'El comentari és obligatori'
+      valid = false
+    } else if (nouComentari.trim().length > 150) {
+      errorsTemp.comentari = 'El comentari no pot tenir més de 150 caràcters'
+      valid = false
+    }
+
+    if (novaValoracio <= 0) {
+      errorsTemp.valoracio = 'Has de posar una valoració'
+      valid = false
+    }
+
+    setErrors(errorsTemp)
+
+    if (!valid) return
 
     const nou: Comentari = {
       id: Date.now(),
       text: nouComentari.trim(),
       valoracio: novaValoracio,
+      nom: nomClient.trim(),
     }
 
     setComentaris((prev) => [nou, ...prev])
     setNouComentari('')
     setNovaValoracio(0)
+    setNomClient('')
+    setErrors({ nom: '', comentari: '', valoracio: '' })
   }
+
+
 
 
   return (
@@ -204,12 +235,12 @@ export default function RocGonzalez() {
           aria-labelledby="productes-title"
         >
           <div className="max-w-5xl mx-auto w-full">
-            <h2
-              id="productes-title"
-              className="text-4xl font-extrabold mb-12 text-center tracking-wide"
-            >
-              El producte
+            <h2 className="font-rye font-bold text-4xl text-black text-center mb-12 tracking-wide">
+              PRODUCTE
             </h2>
+
+
+
 
             <article className="border border-green-300 rounded-lg shadow-md p-8 flex flex-col md:flex-row items-center md:items-start gap-8">
               <img
@@ -226,9 +257,10 @@ export default function RocGonzalez() {
                 <p className="mb-6 leading-relaxed text-lg font-light">
                   {productes[0].descripcio}
                 </p>
-                <p className="text-green-700 font-medium mb-4">
-                  Ideal per a rostits, guisats i receptes tradicionals que busquen sabor i naturalitat.
+                <p className="text-lg font-semibold mb-4">
+                  {productes[0].preu}
                 </p>
+
                 <a
                   href="#contacte"
                   className="inline-block bg-green-700 hover:bg-green-800 text-white py-3 px-6 rounded-md font-semibold transition"
@@ -290,65 +322,44 @@ export default function RocGonzalez() {
           </div>
         </section>
 
-        {/* Secció Clients: Comentaris i Valoracions */}
+
+
+        {/* seccio comentaris */}
         <section
           id="clients"
-          className="max-w-4xl mx-auto px-6 py-16 bg-green-50 text-green-900 rounded-lg shadow-md"
+          className="w-full mx-auto px-4 lg:px-16 py-16 bg-white text-black"
           aria-labelledby="clients-title"
         >
           <h2
             id="clients-title"
-            className="text-4xl font-extrabold mb-8 text-center tracking-wide"
+            className="text-4xl font-extrabold mb-8 texst-center tracking-wide"
           >
-            Opinions dels clients
+            Alguns clients
           </h2>
 
-          {/* Formulari nou comentari */}
-          <form
-            onSubmit={enviarComentari}
-            className="mb-12 flex flex-col space-y-6"
-            aria-label="Formulari per enviar comentari i valoració"
-          >
-            <label htmlFor="comentari" className="text-lg font-semibold">
-              Escriu el teu comentari
-            </label>
-            <textarea
-              id="comentari"
-              rows={4}
-              value={nouComentari}
-              onChange={(e) => setNouComentari(e.target.value)}
-              className="p-3 rounded border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500"
-              required
-            />
 
-            <label className="text-lg font-semibold">Valora el producte</label>
-            <Estrelles valor={novaValoracio} setValor={setNovaValoracio} />
-
-            <button
-              type="submit"
-              className="self-start bg-green-700 hover:bg-green-800 text-white py-2 px-6 rounded-md font-semibold transition"
-              aria-label="Enviar comentari i valoració"
-            >
-              Enviar
-            </button>
-          </form>
-
-          {/* Llista de comentaris */}
-          <div className="space-y-8">
+          {/* llista valoracions */}
+          <div className="space-y-3 mx-auto text-sm">
             {comentaris.length === 0 && (
               <p className="text-center font-light italic">
                 Encara no hi ha cap comentari. Sigues el primer a opinar!
               </p>
             )}
 
-            {comentaris.map(({ id, text, valoracio }) => (
-              <article
-                key={id}
-                className="bg-white p-6 rounded-lg shadow-sm border border-green-200"
-                aria-label={`Comentari amb valoració de ${valoracio} estrelles`}
-              >
-                <div className="flex items-center mb-4">
-                  <div className="flex space-x-1 text-yellow-400 text-xl" aria-hidden="true">
+            {comentaris
+              .slice(0, 4) // Mostrem els 4 primers comentaris, canvia si vols últims
+              .map(({ id, text, valoracio, nom }) => (
+                <article
+                  key={id}
+                  className="flex items-center justify-between bg-white p-2 rounded-lg border border-white"
+                  aria-label={`Comentari amb valoració de ${valoracio} estrelles per ${nom}`}
+                >
+                  {/* Estrelles */}
+                  <div
+                    className="flex space-x-1 text-yellow-400 text-2xl drop-shadow-sm font-semibold flex-shrink-0"
+                    aria-hidden="true"
+
+                  >
                     {[...Array(valoracio)].map((_, i) => (
                       <span key={i}>★</span>
                     ))}
@@ -358,12 +369,118 @@ export default function RocGonzalez() {
                       </span>
                     ))}
                   </div>
-                </div>
-                <p className="text-green-900 leading-relaxed">{text}</p>
-              </article>
-            ))}
+
+                  {/* Comentari */}
+                  <p className="mx-6 text-black text-lg font-semibold text-center flex-1 leading-snug break-words whitespace-pre-line">
+                    {text}
+                  </p>
+
+                  {/* Nom */}
+                  <span className="text-black font-medium flex-shrink-0 ml-4 whitespace-nowrap">
+                    {nom}
+                  </span>
+                </article>
+              ))}
           </div>
+
+
+          {/* Formulari nou comentari */}
+          {/* <form
+            onSubmit={(e) => {
+              e.preventDefault()
+
+              const newErrors = { nom: '', comentari: '', valoracio: '' }
+
+              if (nomClient.trim() === '') newErrors.nom = 'Si us plau, introdueix el teu nom'
+              if (nouComentari.trim() === '') newErrors.comentari = 'Si us plau, escriu un comentari'
+              if (novaValoracio === 0) newErrors.valoracio = 'Si us plau, selecciona una valoració'
+
+              setErrors(newErrors)
+              if (Object.values(newErrors).some((msg) => msg !== '')) return
+
+              enviarComentari() // Cridem sense passar e, evita duplicats i errors
+            }}
+            className="mb-12 flex flex-col space-y-6"
+            aria-label="Formulari per enviar comentari i valoració"
+            noValidate
+          >
+            {/* Nom *
+            <div className="relative">
+              <label htmlFor="nomClient" className="text-lg font-semibold">El teu nom</label>
+              <input
+                type="text"
+                id="nomClient"
+                value={nomClient}
+                onChange={(e) => setNomClient(e.target.value)}
+                placeholder="Escriu el teu nom"
+                className="p-3 mt-1 rounded border border-green-300 w-full focus:outline-none focus:ring-2 focus:ring-green-500"
+                aria-invalid={errors.nom ? 'true' : 'false'}
+                aria-describedby={errors.nom ? 'error-nom' : undefined}
+              />
+              {errors.nom && (
+                <div
+                  id="error-nom"
+                  className="absolute -top-2 left-2 transform -translate-y-full bg-green-600 text-white text-sm px-3 py-1 rounded shadow z-10"
+                  role="alert"
+                >
+                  {errors.nom}
+                  <div className="absolute left-3 top-full w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-green-600" />
+                </div>
+              )}
+            </div>
+
+            {/* Comentari *
+            <div className="relative">
+              <label htmlFor="comentari" className="text-lg font-semibold">Escriu el teu comentari</label>
+              <textarea
+                id="comentari"
+                rows={4}
+                value={nouComentari}
+                onChange={(e) => setNouComentari(e.target.value)}
+                className="p-3 mt-1 rounded border border-green-300 w-full focus:outline-none focus:ring-2 focus:ring-green-500"
+                aria-invalid={errors.comentari ? 'true' : 'false'}
+                aria-describedby={errors.comentari ? 'error-comentari' : undefined}
+              />
+              {errors.comentari && (
+                <div
+                  id="error-comentari"
+                  className="absolute -top-2 left-2 transform -translate-y-full bg-green-600 text-white text-sm px-3 py-1 rounded shadow z-10"
+                  role="alert"
+                >
+                  {errors.comentari}
+                  <div className="absolute left-3 top-full w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-green-600" />
+                </div>
+              )}
+            </div>
+
+            {/* Valoració *
+            <div className="relative">
+              <label className="text-lg font-semibold">Valora el producte</label>
+              <Estrelles valor={novaValoracio} setValor={setNovaValoracio} />
+              {errors.valoracio && (
+                <div
+                  className="absolute -top-2 left-2 transform -translate-y-full bg-green-600 text-white text-sm px-3 py-1 rounded shadow z-10"
+                  role="alert"
+                >
+                  {errors.valoracio}
+                  <div className="absolute left-3 top-full w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-green-600" />
+                </div>
+              )}
+            </div>
+
+            {/* Botó enviar *
+            <button
+              type="submit"
+              className="self-start bg-green-700 hover:bg-green-800 text-white py-2 px-6 rounded-md font-semibold transition"
+              aria-label="Enviar comentari i valoració"
+            >
+              Enviar
+            </button>
+          </form> */}
+
         </section>
+
+
 
 
 
@@ -443,49 +560,47 @@ export default function RocGonzalez() {
         </section>
       </main>
       <footer
-        className="bg-white text-black px-6 py-12 mt-20"
+         className="bg-green-100 text-green-900 text-sm px-6 py-8 mt-20"
         role="contentinfo"
         aria-label="Peu de pàgina"
       >
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 items-center text-center md:text-left">
           {/* Informació legal i autoria - esquerra, text més petit */}
-          <div className="space-y-1 text-left text-xs md:text-sm">
+          <div className="space-y-1 text-left text-xs md:text-xs">
             <p>&copy; {new Date().getFullYear()} Cabrits del Roc</p>
-            <p>Dissenyat i desenvolupat per <strong>Josuè González</strong></p>
+            <p>Developed and designed by </p>
+            <p> Josuè González</p>
             <p>Tots els drets reservats.</p>
           </div>
 
           {/* Logo empresa - centrat */}
-          <div className="flex justify-center items-center">
-            <img
-              src="/imatges/logoroc.png"
-              alt="Logotip de Cabrits del Roc"
-              className="w-32 h-auto"
-              width={128}
-              height={64}
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
+<div className="flex justify-center items-center">
+  <img
+    src="/imatges/logoroc.png"
+    alt="Logotip de Cabrits del Roc"
+    className="w-20 md:w-28 h-auto"
+    width={128}
+    height={64}
+    loading="lazy"
+    decoding="async"
+  />
+</div>
 
-          {/* Segell Producte Català - dret */}
-          <div className="flex justify-center md:justify-end">
-            <img
-              src="/imatges/productecatala.png"
-              alt="Segell de Producte Català"
-              className="w-24 h-auto"
-              width={96}
-              height={96}
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
+{/* Segell Producte Català - dret */}
+<div className="flex justify-center md:justify-end">
+  <img
+    src="/imatges/productecatala.png"
+    alt="Segell de Producte Català"
+    className="w-16 md:w-20 h-auto"
+    width={96}
+    height={96}
+    loading="lazy"
+    decoding="async"
+  />
+</div>
+
         </div>
       </footer>
-
-
-
-
     </>
   )
 }
