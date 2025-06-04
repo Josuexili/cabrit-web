@@ -568,37 +568,35 @@ export default function RocGonzalez() {
           {/* Informació legal i autoria - esquerra, text més petit */}
           <div className="space-y-1 text-left text-xs md:text-xs">
             <p>&copy; {new Date().getFullYear()} Cabrits del Roc</p>
-            <p>Developed and designed by </p>
-            <p> Josuè González</p>
+            <p>Developed by <strong>Josuè González</strong></p>
             <p>Tots els drets reservats.</p>
           </div>
 
           {/* Logo empresa - centrat */}
-<div className="flex justify-center items-center">
-  <img
-    src="/imatges/logoroc.png"
-    alt="Logotip de Cabrits del Roc"
-    className="w-20 md:w-28 h-auto"
-    width={128}
-    height={64}
-    loading="lazy"
-    decoding="async"
-  />
-</div>
+          <div className="flex justify-center items-center">
+            <img
+              src="/imatges/logoroc.png"
+              alt="Logotip de Cabrits del Roc"
+              className="w-32 h-auto"
+              width={128}
+              height={64}
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
 
-{/* Segell Producte Català - dret */}
-<div className="flex justify-center md:justify-end">
-  <img
-    src="/imatges/productecatala.png"
-    alt="Segell de Producte Català"
-    className="w-16 md:w-20 h-auto"
-    width={96}
-    height={96}
-    loading="lazy"
-    decoding="async"
-  />
-</div>
-
+          {/* Segell Producte Català - dret */}
+          <div className="flex justify-center md:justify-end">
+            <img
+              src="/imatges/productecatala.png"
+              alt="Segell de Producte Català"
+              className="w-24 h-auto"
+              width={96}
+              height={96}
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
         </div>
       </footer>
     </>
