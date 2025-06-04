@@ -6,157 +6,171 @@ import { Menu, X } from 'lucide-react'
 const productes = [
   {
     nom: 'Cabrit tallat de pastura lliure',
-    imatge: '/imatges/foto2.jpg',
+    imatge: '/imatges/Cabtrittallat.jpg',
     descripcio:
       'Carn de cabrit criada en llibertat al Parc Rural de Montserrat, amb un sabor autèntic, saludable i natural. Tallada a mida, fresca i perfecta per a cuina tradicional o creativa.',
   },
 ]
 
-// Aquí afegim només l'array d'imatges rotatòries per a la secció "El pastor"
-const imatgesPastor = [
-  '/imatges/foto2.jpg',
-  '/imatges/foto3.jpg',
-  '/imatges/foto4.jpg',
-]
+type EstrellesProps = {
+  valor: number;
+  setValor: (valor: number) => void;
+};
+
+function Estrelles({ valor, setValor }: EstrellesProps) {
+  return (
+    <div className="flex space-x-1">
+      {[1, 2, 3, 4, 5].map((i) => (
+        <button
+          key={i}
+          type="button"
+          aria-label={`${i} estrella${i > 1 ? 's' : ''}`}
+          onClick={() => setValor(i)}
+          className={`text-2xl ${
+            i <= valor ? 'text-yellow-400' : 'text-gray-300'
+          } focus:outline-none`}
+        >
+          ★
+        </button>
+      ))}
+    </div>
+  )
+}
+
+type Comentari = {
+  id: number
+  text: string
+  valoracio: number
+}
 
 export default function RocGonzalez() {
   const [menuObert, setMenuObert] = useState(false)
+  const [comentaris, setComentaris] = useState<Comentari[]>([])
+  const [nouComentari, setNouComentari] = useState('')
+  const [novaValoracio, setNovaValoracio] = useState(0)
 
-  // Estat per controlar quina imatge mostrar a la secció "El pastor"
-  const [indexImatge, setIndexImatge] = useState(0)
-
-  // Efecte per canviar la imatge automàticament cada 4 segons
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIndexImatge((i) => (i + 1) % imatgesPastor.length)
-    }, 3000)
-
-    return () => clearInterval(interval)
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('comentaris')
+      if (stored) {
+        try {
+          const parsed: Comentari[] = JSON.parse(stored)
+          setComentaris(parsed)
+        } catch (e) {
+          console.error('Error parsejant comentaris:', e)
+        }
+      }
+    }
   }, [])
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('comentaris', JSON.stringify(comentaris))
+    }
+  }, [comentaris])
+
+  function enviarComentari(e: React.FormEvent) {
+    e.preventDefault()
+    if (nouComentari.trim() === '' || novaValoracio === 0) {
+      alert('Si us plau, escriu un comentari i selecciona una valoració.')
+      return
+    }
+
+    const nou: Comentari = {
+      id: Date.now(),
+      text: nouComentari.trim(),
+      valoracio: novaValoracio,
+    }
+
+    setComentaris((prev) => [nou, ...prev])
+    setNouComentari('')
+    setNovaValoracio(0)
+  }
+
 
   return (
     <>
-
       <header className="fixed top-0 left-0 w-full z-50 bg-black/40 backdrop-blur-md">
-        <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          {/* Logo */}
-          <a
-            href="#"
-            className="text-2xl font-mochiy text-forest-green-900 font-bold tracking-wide"
-          >
-            Cabrits del Roc
-          </a>
+        <nav
+          className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between"
+          aria-label="Navegació principal"
+        >
+          <h1>
+            <a
+              href="#"
+              className="text-2xl lg:text-xl font-mochiy text-forest-green-900 font-bold tracking-wide"
+              title="Inici - Cabrits del Roc"
+            >
+              Cabrits del Roc
+            </a>
+          </h1>
 
-
-          {/* Menú Desktop */}
-          <ul className="hidden md:flex space-x-12 text-forest-green-900 font-semibold text-lg">
-            <li>
-              <a
-                href="#productes"
-                className="hover:text-forest-green-700 transition"
-              >
-                Producte
-              </a>
-            </li>
-            <li>
-              <a
-                href="#filosofia"
-                className="hover:text-forest-green-700 transition"
-              >
-                La meva filosofia
-              </a>
-            </li>
-            <li>
-              <a
-                href="#contacte"
-                className="hover:text-forest-green-700 transition"
-              >
-                Contacte
-              </a>
-            </li>
-            <li>
-              <a
-                href="#ubicacio"
-                className="hover:text-forest-green-700 transition"
-              >
-                On som
-              </a>
-            </li>
-            <li>
-              <a
-                href="#pastor"
-                className="hover:text-forest-green-700 transition"
-              >
-                El pastor
-              </a>
-            </li>
+          {/* Menú de pantalla gran */}
+          <ul className="hidden md:flex space-x-12 lg:space-x-8 text-forest-green-900 font-semibold text-lg lg:text-base">
+            {[
+              { href: '#productes', label: 'Producte', title: 'Ves a la secció de productes' },
+              { href: '#contacte', label: 'Contacte', title: 'Contacta amb mi' },
+              { href: '#clients', label: 'Valoracions', title: 'Opinions dels clients' },
+              { href: '#pastor', label: 'El pastor', title: 'Secció El pastor' },
+            ].map(({ href, label, title }) => (
+              <li key={href}>
+                <a href={href} className="hover:text-forest-green-700 transition" title={title}>
+                  {label}
+                </a>
+              </li>
+            ))}
           </ul>
 
           {/* Botó menú mòbil */}
           <button
             className="md:hidden text-forest-green-900 hover:text-forest-green-700 transition"
             onClick={() => setMenuObert(!menuObert)}
-            aria-label="Obrir menú"
+            aria-label={menuObert ? 'Tancar menú' : 'Obrir menú'}
+            aria-expanded={menuObert}
+            aria-controls="menu-mobil"
+            type="button"
           >
             {menuObert ? <X size={28} /> : <Menu size={28} />}
           </button>
         </nav>
 
-        {/* Menú mòbil */}
+        {/* Menú mòbil desplegable */}
         {menuObert && (
-          <div className="md:hidden bg-white shadow-md border-t border-forest-green-200">
+          <div
+            id="menu-mobil"
+            className="md:hidden bg-white shadow-md border-t border-forest-green-200"
+            role="region"
+            aria-label="Menú de navegació mòbil"
+          >
             <ul className="flex flex-col space-y-3 p-6 text-forest-green-900 font-semibold text-lg">
-              <li>
-                <a
-                  href="#productes"
-                  onClick={() => setMenuObert(false)}
-                  className="hover:text-forest-green-700"
-                >
-                  Producte
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#filosofia"
-                  onClick={() => setMenuObert(false)}
-                  className="hover:text-forest-green-700"
-                >
-                  La meva filosofia
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#contacte"
-                  onClick={() => setMenuObert(false)}
-                  className="hover:text-forest-green-700"
-                >
-                  Contacte
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#ubicacio"
-                  onClick={() => setMenuObert(false)}
-                  className="hover:text-forest-green-700"
-                >
-                  On som
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#pastor"
-                  onClick={() => setMenuObert(false)}
-                  className="hover:text-forest-green-700"
-                >
-                  El pastor
-                </a>
-              </li>
+              {[
+                { href: '#productes', label: 'Producte', title: 'Ves a la secció de productes' },
+                { href: '#contacte', label: 'Contacte', title: 'Contacta amb mi' },
+                { href: '#clients', label: 'Els nostres clients', title: 'Opinions dels clients' },
+                { href: '#pastor', label: 'El pastor', title: 'Secció El pastor' },
+              ].map(({ href, label, title }) => (
+                <li key={href}>
+                  <a
+                    href={href}
+                    onClick={() => setMenuObert(false)}
+                    className="hover:text-forest-green-700"
+                    title={title}
+                  >
+                    {label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
         )}
       </header>
 
-      <main className="font-serif text-forest-green-900 bg-white min-h-screen">
+
+
+      <main
+        role="main"
+        className="font-serif text-forest-green-900 bg-white min-h-screen"
+      >
         {/* Hero */}
         <section
           className="relative h-screen w-full flex items-center justify-center overflow-hidden"
@@ -169,6 +183,8 @@ export default function RocGonzalez() {
             className="object-cover w-full h-full"
             loading="lazy"
             decoding="async"
+            width={1920}
+            height={1080}
           />
 
           {/* Logotip sobreposat */}
@@ -176,141 +192,186 @@ export default function RocGonzalez() {
             src="/imatges/logoroc.png"
             alt="Cabreta transparent decorativa"
             className="absolute top-88 left-1/8 w-48 md:w-64 lg:w-72 drop-shadow-lg pointer-events-none -rotate-6 transition-transform"
+            width={288}
+            height={288}
           />
         </section>
 
         {/* Producte */}
         <section
           id="productes"
-          className="max-w-5xl mx-auto py-20 px-6 md:px-0"
+          className="min-h-screen flex items-center px-6 md:px-0"
           aria-labelledby="productes-title"
         >
-          <h2
-            id="productes-title"
-            className="text-4xl font-extrabold mb-12 text-center tracking-wide"
-          >
-            El meu producte
-          </h2>
+          <div className="max-w-5xl mx-auto w-full">
+            <h2
+              id="productes-title"
+              className="text-4xl font-extrabold mb-12 text-center tracking-wide"
+            >
+              El producte
+            </h2>
 
-          <article className="border border-green-300 rounded-lg shadow-md p-8 flex flex-col md:flex-row items-center md:items-start gap-8">
-            <img
-              src={productes[0].imatge}
-              alt={productes[0].nom}
-              className="rounded w-full md:w-96 h-72 object-cover"
-              loading="lazy"
-              decoding="async"
-            />
-            <div className="max-w-xl text-green-900">
-              <h3 className="text-3xl font-semibold mb-4">{productes[0].nom}</h3>
-              <p className="mb-6 leading-relaxed text-lg font-light">
-                {productes[0].descripcio}
-              </p>
-              <p className="text-green-700 font-medium mb-4">
-                Ideal per a rostits, guisats i receptes tradicionals que busquen
-                sabor i naturalitat.
-              </p>
-              <a
-                href="#contacte"
-                className="inline-block bg-green-700 hover:bg-green-800 text-white py-3 px-6 rounded-md font-semibold transition"
-              >
-                Demana ara el teu cabrit tallat
-              </a>
-            </div>
-          </article>
-        </section>
-
-        {/* Filosofia */}
-        <section
-          id="filosofia"
-          className="bg-green-50 py-20 px-6 md:px-0"
-          aria-labelledby="filosofia-title"
-        >
-          <h2
-            id="filosofia-title"
-            className="text-4xl font-extrabold mb-12 text-center tracking-wide"
-          >
-            La meva filosofia
-          </h2>
-
-          <div className="max-w-4xl mx-auto text-lg font-light leading-relaxed text-green-900 px-4 md:px-0">
-            <p className="mb-6">
-              Les meves cabres pasturen lliurement per la natura del Parc Rural de
-              Montserrat, alimentant-se de manera natural i diversa. Això garanteix
-              una carn de cabrit saludable, saborosa i respectuosa amb el medi
-              ambient.
-            </p>
-            <p>
-              Crec que la qualitat i el sabor venen de respectar el cicle natural i
-              criar amb cura, sense confinaments ni additius.
-            </p>
+            <article className="border border-green-300 rounded-lg shadow-md p-8 flex flex-col md:flex-row items-center md:items-start gap-8">
+              <img
+                src={productes[0].imatge}
+                alt={`${productes[0].nom}, carn de cabrit natural i saludable`}
+                className="rounded w-full md:w-96 h-72 object-cover"
+                loading="lazy"
+                decoding="async"
+                width={384}
+                height={288}
+              />
+              <div className="max-w-xl text-green-900">
+                <h3 className="text-3xl font-semibold mb-4">{productes[0].nom}</h3>
+                <p className="mb-6 leading-relaxed text-lg font-light">
+                  {productes[0].descripcio}
+                </p>
+                <p className="text-green-700 font-medium mb-4">
+                  Ideal per a rostits, guisats i receptes tradicionals que busquen sabor i naturalitat.
+                </p>
+                <a
+                  href="#contacte"
+                  className="inline-block bg-green-700 hover:bg-green-800 text-white py-3 px-6 rounded-md font-semibold transition"
+                  title="Demana ara el teu cabrit tallat"
+                >
+                  Demana ara el teu cabrit tallat
+                </a>
+              </div>
+            </article>
           </div>
         </section>
+
+
+
+
 
         {/* Contacte */}
         <section
           id="contacte"
-          className="bg-black py-20 px-6 text-center text-white"
+          className="min-h-screen flex items-center justify-center px-6 bg-black text-white text-center"
           aria-labelledby="contacte-title"
         >
-          <h2
-            id="contacte-title"
-            className="text-4xl font-extrabold mb-12 tracking-wide"
-          >
-            Contacta’m
-          </h2>
-
-          <div className="flex flex-col items-center space-y-8 text-white text-xl font-medium">
-            {/* Telèfon amb WhatsApp */}
-            <a
-              href="https://wa.me/34666666666" // IMPORTANT: posa el número correcte en format internacional!
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center space-x-4 hover:text-green-400 transition"
+          <div>
+            <h2
+              id="contacte-title"
+              className="text-4xl font-extrabold mb-12 tracking-wide"
             >
-              <img
-                src="/imatges/whatsapp-icon.png"
-                alt="WhatsApp"
-                className="w-8 h-8"
-              />
-              <span className="text-2xl">+34 666 666 666</span>
-            </a>
+              Contacta’m
+            </h2>
 
-            {/* Correu electrònic */}
-            <a
-              href="mailto:roc@example.com"
-              className="hover:text-green-400 transition text-2xl"
-            >
-              roc@example.com
-            </a>
+            <div className="flex flex-col items-center space-y-8 text-white text-xl font-medium">
+              {/* Telèfon amb WhatsApp */}
+              <a
+                href="https://wa.me/34666666666"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-4 hover:text-green-400 transition"
+                title="Contacta per WhatsApp al +34 666 666 666"
+              >
+                <img
+                  src="/imatges/whatsapp-icon.png"
+                  alt="Icona WhatsApp"
+                  className="w-8 h-8"
+                  width={32}
+                  height={32}
+                />
+                <span className="text-2xl">+34 666 666 666</span>
+              </a>
+
+              {/* Correu electrònic */}
+              <a
+                href="mailto:roc@example.com"
+                className="hover:text-green-400 transition text-2xl"
+                title="Enviar correu electrònic a roc@example.com"
+              >
+                roc@example.com
+              </a>
+            </div>
           </div>
         </section>
 
-
-        {/* Ubicació */}
+        {/* Secció Clients: Comentaris i Valoracions */}
         <section
-          id="ubicacio"
-          className="max-w-5xl mx-auto py-20 px-6"
-          aria-label="Mapa de ubicació"
+          id="clients"
+          className="max-w-4xl mx-auto px-6 py-16 bg-green-50 text-green-900 rounded-lg shadow-md"
+          aria-labelledby="clients-title"
         >
-          <h2 className="text-4xl font-extrabold mb-12 text-center tracking-wide">
-            On som
+          <h2
+            id="clients-title"
+            className="text-4xl font-extrabold mb-8 text-center tracking-wide"
+          >
+            Opinions dels clients
           </h2>
-          <div className="aspect-[16/9] rounded-lg overflow-hidden shadow-lg">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2999.9999999999995!2d2.000000!3d41.600000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a4a2e000000000%3A0x0000000000000000!2sParc%20Rural%20Montserrat!5e0!3m2!1ses!2ses!4v1688300000000!5m2!1ses!2ses"
-              loading="lazy"
-              title="Mapa de la ubicació del Parc Rural de Montserrat"
-              className="w-full h-full border-0"
-              allowFullScreen
-              referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
+
+          {/* Formulari nou comentari */}
+          <form
+            onSubmit={enviarComentari}
+            className="mb-12 flex flex-col space-y-6"
+            aria-label="Formulari per enviar comentari i valoració"
+          >
+            <label htmlFor="comentari" className="text-lg font-semibold">
+              Escriu el teu comentari
+            </label>
+            <textarea
+              id="comentari"
+              rows={4}
+              value={nouComentari}
+              onChange={(e) => setNouComentari(e.target.value)}
+              className="p-3 rounded border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500"
+              required
+            />
+
+            <label className="text-lg font-semibold">Valora el producte</label>
+            <Estrelles valor={novaValoracio} setValor={setNovaValoracio} />
+
+            <button
+              type="submit"
+              className="self-start bg-green-700 hover:bg-green-800 text-white py-2 px-6 rounded-md font-semibold transition"
+              aria-label="Enviar comentari i valoració"
+            >
+              Enviar
+            </button>
+          </form>
+
+          {/* Llista de comentaris */}
+          <div className="space-y-8">
+            {comentaris.length === 0 && (
+              <p className="text-center font-light italic">
+                Encara no hi ha cap comentari. Sigues el primer a opinar!
+              </p>
+            )}
+
+            {comentaris.map(({ id, text, valoracio }) => (
+              <article
+                key={id}
+                className="bg-white p-6 rounded-lg shadow-sm border border-green-200"
+                aria-label={`Comentari amb valoració de ${valoracio} estrelles`}
+              >
+                <div className="flex items-center mb-4">
+                  <div className="flex space-x-1 text-yellow-400 text-xl" aria-hidden="true">
+                    {[...Array(valoracio)].map((_, i) => (
+                      <span key={i}>★</span>
+                    ))}
+                    {[...Array(5 - valoracio)].map((_, i) => (
+                      <span key={i} className="text-gray-300">
+                        ★
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <p className="text-green-900 leading-relaxed">{text}</p>
+              </article>
+            ))}
           </div>
         </section>
+
+
+
 
         {/* El pastor */}
         <section
           id="pastor"
-          className="bg-white py-20 px-6 md:px-0 max-w-5xl mx-auto font-serif text-black"
+          className="bg-white py-20 px-6 md:px-0 max-w-6xl mx-auto font-serif text-black"
           aria-labelledby="pastor-title"
         >
           <h2
@@ -322,14 +383,22 @@ export default function RocGonzalez() {
           </h2>
 
           <div className="flex flex-col md:flex-row items-center md:items-start gap-12 px-4 md:px-0">
-            {/* Imatge rotatòria */}
-            <img
-              src={imatgesPastor[indexImatge]}
-              alt="El pastor amb les seves cabres"
-              className="rounded-md shadow-md w-full max-w-sm object-cover h-64 md:h-80"
-            />
+            {/* Imatge fixa a l'esquerra */}
+            <div className="w-full md:w-1/2">
+              <img
+                src="/imatges/roc1.jpg" // <-- Substitueix amb la ruta real
+                alt="El pastor Roc González cuidant les seves cabres al Parc Rural de Montserrat"
+                className="rounded-md shadow-md object-cover w-full h-64 md:h-[28rem]"
+                width={640}
+                height={448}
+              />
+            </div>
 
-            <div className="text-base leading-relaxed font-light max-w-xl" style={{ fontFamily: "'Merriweather', serif" }}>
+            {/* Text a la dreta */}
+            <div
+              className="text-base leading-relaxed font-light max-w-xl w-full md:w-1/2"
+              style={{ fontFamily: "'Merriweather', serif" }}
+            >
               <p className="mb-6">
                 Em dic Roc i sóc el pastor que cuida les cabres del Parc Rural de Montserrat.
               </p>
@@ -353,6 +422,7 @@ export default function RocGonzalez() {
                   className="text-black hover:text-green-800 font-medium underline transition-colors duration-300"
                   target="_blank"
                   rel="noopener noreferrer"
+                  title="Veure el Roc a TV3, caçadors de bolets"
                   style={{ fontFamily: "'Merriweather', serif" }}
                 >
                   El roc a TV3, caçadors de bolets!
@@ -362,6 +432,7 @@ export default function RocGonzalez() {
                   className="text-black hover:text-green-800 font-medium underline transition-colors duration-300"
                   target="_blank"
                   rel="noopener noreferrer"
+                  title="Entrevista a Roc González al Parc Rural de Montserrat"
                   style={{ fontFamily: "'Merriweather', serif" }}
                 >
                   Entrevista a Roc González al Parc Rural de Montserrat
@@ -370,22 +441,50 @@ export default function RocGonzalez() {
             </div>
           </div>
         </section>
-
-
-
       </main>
-      <footer className="bg-green-900 text-white py-10 px-6 mt-20 text-center">
-        <div className="max-w-7xl mx-auto">
-          <p className="mb-4">&copy; {new Date().getFullYear()} Cabrits del Roc. Tots els drets reservats.</p>
-          <nav className="space-x-6">
-            <a href="#productes" className="hover:text-green-400 transition">Producte</a>
-            <a href="#filosofia" className="hover:text-green-400 transition">La meva filosofia</a>
-            <a href="#contacte" className="hover:text-green-400 transition">Contacte</a>
-            <a href="#ubicacio" className="hover:text-green-400 transition">On som</a>
-            <a href="#pastor" className="hover:text-green-400 transition">El pastor</a>
-          </nav>
+      <footer
+        className="bg-white text-black px-6 py-12 mt-20"
+        role="contentinfo"
+        aria-label="Peu de pàgina"
+      >
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 items-center text-center md:text-left">
+          {/* Informació legal i autoria - esquerra, text més petit */}
+          <div className="space-y-1 text-left text-xs md:text-sm">
+            <p>&copy; {new Date().getFullYear()} Cabrits del Roc</p>
+            <p>Dissenyat i desenvolupat per <strong>Josuè González</strong></p>
+            <p>Tots els drets reservats.</p>
+          </div>
+
+          {/* Logo empresa - centrat */}
+          <div className="flex justify-center items-center">
+            <img
+              src="/imatges/logoroc.png"
+              alt="Logotip de Cabrits del Roc"
+              className="w-32 h-auto"
+              width={128}
+              height={64}
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+
+          {/* Segell Producte Català - dret */}
+          <div className="flex justify-center md:justify-end">
+            <img
+              src="/imatges/productecatala.png"
+              alt="Segell de Producte Català"
+              className="w-24 h-auto"
+              width={96}
+              height={96}
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
         </div>
       </footer>
+
+
+
 
     </>
   )
