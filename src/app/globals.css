@@ -31,3 +31,18 @@ body {
   font-family: 'Rye', Arial, Helvetica, sans-serif;
 
 }
+
+@keyframes slide {
+  0%    { transform: translateX(0%); }
+  16.66% { transform: translateX(-100%); }
+  33.33% { transform: translateX(-200%); }
+  50%   { transform: translateX(-300%); }
+  66.66% { transform: translateX(-400%); }
+  83.33% { transform: translateX(-500%); }
+  100%  { transform: translateX(0%); }
+}
+
+.animate-slide {
+  animation: slide 18s linear infinite;
+  width: 600%; /* 6 imatges */
+}
