@@ -1,4 +1,9 @@
-import { useEffect, useState } from 'react'
+'use client'
+
+import React, { useRef, useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
+import useEmblaCarousel from 'embla-carousel-react'
+import Autoplay from 'embla-carousel-autoplay'
 
 const fotos = [
   '/imatges/foto1.jpg',
@@ -10,33 +15,71 @@ const fotos = [
 ]
 
 export default function Carousel() {
-  const [index, setIndex] = useState(0)
+  const autoplay = useRef(
+    Autoplay({
+      delay: 8000,
+      stopOnInteraction: false,
+      rootNode: (emblaRoot) => emblaRoot.parentElement,
+    })
+  )
 
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [autoplay.current])
+
+  // Estat per saber quin slide està actiu
+  const [selectedIndex, setSelectedIndex] = useState(0)
+
+  // Quan Embla està llest, s'afegeix listener de canvi de slide
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % fotos.length)
-    }, 3000)
-    return () => clearInterval(interval)
-  }, [])
+  if (!emblaApi) return
+
+  const onSelect = () => {
+    setSelectedIndex(emblaApi.selectedScrollSnap())
+  }
+
+  emblaApi.on('select', onSelect)
+  onSelect()
+
+  return () => {
+    emblaApi.off('select', onSelect)
+  }
+}, [emblaApi])
+
 
   return (
-    <div className="w-full max-w-4xl mx-auto overflow-hidden rounded-lg shadow-lg h-64 md:h-96">
-      <div
-        className="flex transition-transform duration-700 ease-in-out"
-        style={{
-          width: `${fotos.length * 100}%`,
-          transform: `translateX(-${index * (100 / fotos.length)}%)`,
-        }}
-      >
-        {fotos.map((foto, i) => (
-          <img
-            key={i}
-            src={foto}
-            alt={`Foto ${i + 1}`}
-            className="w-full h-64 md:h-96 object-cover flex-shrink-0"
-            style={{ width: `${100 / fotos.length}%` }}
-          />
-        ))}
+    <div className="embla overflow-hidden w-full h-full">
+      <div className="embla__viewport h-full" ref={emblaRef}>
+        <div className="embla__container flex h-full">
+          {fotos.map((foto, i) => (
+            <div
+              key={i}
+              className="embla__slide flex-shrink-0 basis-full h-full relative overflow-hidden"
+            >
+              <motion.img
+                key={`${i}-${selectedIndex === i ? 'active' : 'inactive'}`} // canvia key per reiniciar
+                src={foto}
+                alt={`Foto ${i + 1}`}
+                className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
+                initial={{ scale: 1, translateZ: 0 }}
+                animate={selectedIndex === i ? {
+                  scale: [1, 1.08],
+                  translateZ: [0, 20],
+                } : { scale: 1, translateZ: 0 }}
+                transition={{
+                  duration: 6,
+                  ease: 'easeInOut',
+                  repeat: 0, // no repetir automàticament, ja que s'executa per cada slide
+                }}
+                style={{
+                  transformOrigin: 'center center',
+                  backfaceVisibility: 'hidden',
+                  willChange: 'transform',
+                }}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )
