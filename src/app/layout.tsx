@@ -1,16 +1,28 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Mochiy_Pop_P_One, Rye } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  weight: "400",
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  weight: "400",
+  display: "swap",
 });
+
+const mochiy = Mochiy_Pop_P_One({
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,9 +35,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ca">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${mochiy.className}  antialiased`}
       >
         {children}
       </body>
