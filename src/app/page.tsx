@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react'
 import { Menu, X } from 'lucide-react'
-import FooterLegal from './components/FooterLegal';
+import FooterLegal from './components/FooterLegal'
+import Carousel from './components/Carru'
 
 
 const productes = [
@@ -50,36 +51,7 @@ const comentaris: Comentari[] = [
   }
 ]
 
-const fotos = [
-  '/imatges/foto1.jpg',
-  '/imatges/foto2.jpg',
-  '/imatges/foto3.jpg',
-  '/imatges/foto4.jpg',
-  '/imatges/foto5.jpg',
-  '/imatges/foto6.jpg',
-]
 
-function Carousel() {
-  const [index, setIndex] = useState(0)
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % fotos.length)
-    }, 3000)
-    return () => clearInterval(interval)
-  }, [])
-
-  return (
-    <div className="w-full max-w-4xl mx-auto overflow-hidden rounded-lg shadow-lg">
-      <img
-        src={fotos[index]}
-        alt={`Foto ${index + 1}`}
-        className="w-full h-64 md:h-96 object-cover transition-opacity duration-700 ease-in-out"
-        key={index}
-      />
-    </div>
-  )
-}
 
 export default function RocGonzalez() {
   const [menuObert, setMenuObert] = useState(false)
