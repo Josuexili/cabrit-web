@@ -18,23 +18,7 @@ type EstrellesProps = {
   setValor: (valor: number) => void
 }
 
-function Estrelles({ valor, setValor }: EstrellesProps) {
-  return (
-    <div className="flex space-x-1">
-      {[1, 2, 3, 4, 5].map((i) => (
-        <button
-          key={i}
-          type="button"
-          aria-label={`${i} estrella${i > 1 ? 's' : ''}`}
-          onClick={() => setValor(i)}
-          className={`text-2xl ${i <= valor ? 'text-yellow-400' : 'text-gray-300'} focus:outline-none`}
-        >
-          ★
-        </button>
-      ))}
-    </div>
-  )
-}
+
 
 type Comentari = {
   id: number
@@ -70,28 +54,7 @@ export default function RocGonzalez() {
     }
   }, [comentaris])
 
-  function enviarComentari() {
-    if (
-      nomClient.trim().length === 0 ||
-      nouComentari.trim().length === 0 ||
-      nouComentari.trim().length > 150 ||
-      novaValoracio <= 0
-    ) {
-      return
-    }
-
-    const nou: Comentari = {
-      id: Date.now(),
-      text: nouComentari.trim(),
-      valoracio: novaValoracio,
-      nom: nomClient.trim(),
-    }
-
-    setComentaris((prev) => [nou, ...prev])
-    setNouComentari('')
-    setNovaValoracio(0)
-    setNomClient('')
-  }
+  
 
 
 
