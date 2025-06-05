@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import FooterLegal from './components/FooterLegal'
 import Carousel from './components/Carru'
