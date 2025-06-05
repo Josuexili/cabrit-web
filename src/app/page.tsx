@@ -14,10 +14,10 @@ const productes = [
 ]
 
 type EstrellesProps = {
-  valor: number;
-  setValor: (valor: number) => void;
-};
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+  valor: number
+  setValor: (valor: number) => void
+}
+
 function Estrelles({ valor, setValor }: EstrellesProps) {
   return (
     <div className="flex space-x-1">
@@ -27,8 +27,7 @@ function Estrelles({ valor, setValor }: EstrellesProps) {
           type="button"
           aria-label={`${i} estrella${i > 1 ? 's' : ''}`}
           onClick={() => setValor(i)}
-          className={`text-2xl ${i <= valor ? 'text-yellow-400' : 'text-gray-300'
-            } focus:outline-none`}
+          className={`text-2xl ${i <= valor ? 'text-yellow-400' : 'text-gray-300'} focus:outline-none`}
         >
           ★
         </button>
@@ -43,18 +42,13 @@ type Comentari = {
   valoracio: number
   nom: string
 }
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 export default function RocGonzalez() {
   const [menuObert, setMenuObert] = useState(false)
   const [comentaris, setComentaris] = useState<Comentari[]>([])
   const [nouComentari, setNouComentari] = useState('')
   const [novaValoracio, setNovaValoracio] = useState(0)
   const [nomClient, setNomClient] = useState('')
-  const [errors, setErrors] = useState({
-    nom: '',
-    comentari: '',
-    valoracio: '',
-  })
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -75,32 +69,16 @@ export default function RocGonzalez() {
       localStorage.setItem('comentaris', JSON.stringify(comentaris))
     }
   }, [comentaris])
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   function enviarComentari() {
-    let valid = true
-    const errorsTemp = { nom: '', comentari: '', valoracio: '' }
-
-    if (nomClient.trim().length === 0) {
-      errorsTemp.nom = 'El nom és obligatori'
-      valid = false
+    if (
+      nomClient.trim().length === 0 ||
+      nouComentari.trim().length === 0 ||
+      nouComentari.trim().length > 150 ||
+      novaValoracio <= 0
+    ) {
+      return
     }
-
-    if (nouComentari.trim().length === 0) {
-      errorsTemp.comentari = 'El comentari és obligatori'
-      valid = false
-    } else if (nouComentari.trim().length > 150) {
-      errorsTemp.comentari = 'El comentari no pot tenir més de 150 caràcters'
-      valid = false
-    }
-
-    if (novaValoracio <= 0) {
-      errorsTemp.valoracio = 'Has de posar una valoració'
-      valid = false
-    }
-
-    setErrors(errorsTemp)
-
-    if (!valid) return
 
     const nou: Comentari = {
       id: Date.now(),
@@ -113,7 +91,6 @@ export default function RocGonzalez() {
     setNouComentari('')
     setNovaValoracio(0)
     setNomClient('')
-    setErrors({ nom: '', comentari: '', valoracio: '' })
   }
 
 
