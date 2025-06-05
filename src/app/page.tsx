@@ -17,7 +17,7 @@ type EstrellesProps = {
   valor: number;
   setValor: (valor: number) => void;
 };
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function Estrelles({ valor, setValor }: EstrellesProps) {
   return (
     <div className="flex space-x-1">
@@ -43,7 +43,7 @@ type Comentari = {
   valoracio: number
   nom: string
 }
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function RocGonzalez() {
   const [menuObert, setMenuObert] = useState(false)
   const [comentaris, setComentaris] = useState<Comentari[]>([])
@@ -75,7 +75,7 @@ export default function RocGonzalez() {
       localStorage.setItem('comentaris', JSON.stringify(comentaris))
     }
   }, [comentaris])
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
   function enviarComentari() {
     let valid = true
     const errorsTemp = { nom: '', comentari: '', valoracio: '' }
