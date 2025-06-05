@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Menu, X } from 'lucide-react'
 
 const productes = [
@@ -13,13 +13,6 @@ const productes = [
   },
 ]
 
-type EstrellesProps = {
-  valor: number
-  setValor: (valor: number) => void
-}
-
-
-
 type Comentari = {
   id: number
   text: string
@@ -27,34 +20,29 @@ type Comentari = {
   nom: string
 }
 
+const comentaris: Comentari[] = [
+  {
+    id: 1,
+    text: 'La carn és excel·lent, molt saborosa i de qualitat.',
+    valoracio: 5,
+    nom: 'Anna'
+  },
+  {
+    id: 2,
+    text: 'El servei va ser molt amable i la recomanació molt bona.',
+    valoracio: 4,
+    nom: 'Marc'
+  },
+  {
+    id: 3,
+    text: 'Producte natural i respectuós amb els animals, el recomano!',
+    valoracio: 5,
+    nom: 'Laia'
+  }
+]
+
 export default function RocGonzalez() {
-  const [menuObert, setMenuObert] = useState(false)
-  const [comentaris, setComentaris] = useState<Comentari[]>([])
-  const [nouComentari, setNouComentari] = useState('')
-  const [novaValoracio, setNovaValoracio] = useState(0)
-  const [nomClient, setNomClient] = useState('')
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('comentaris')
-      if (stored) {
-        try {
-          const parsed: Comentari[] = JSON.parse(stored)
-          setComentaris(parsed)
-        } catch (e) {
-          console.error('Error parsejant comentaris:', e)
-        }
-      }
-    }
-  }, [])
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('comentaris', JSON.stringify(comentaris))
-    }
-  }, [comentaris])
-
-  
+  const [menuObert, setMenuObert] = React.useState(false)
 
 
 
@@ -264,7 +252,7 @@ export default function RocGonzalez() {
 
 
 
-        {/* seccio comentaris */}
+        {/* Secció comentaris */}
         <section
           id="clients"
           className="w-full mx-auto px-4 lg:px-16 py-16 bg-white text-black"
@@ -272,57 +260,53 @@ export default function RocGonzalez() {
         >
           <h2
             id="clients-title"
-            className="text-4xl font-extrabold mb-8 texst-center tracking-wide"
+            className="text-4xl font-extrabold mb-8 text-center tracking-wide"
           >
             Alguns clients
           </h2>
 
-
-          {/* llista valoracions */}
           <div className="space-y-3 mx-auto text-sm">
-            {comentaris.length === 0 && (
+            {comentaris.length === 0 ? (
               <p className="text-center font-light italic">
-                Encara no hi ha cap comentari. Sigues el primer a opinar!
+                Encara no hi ha cap comentari.
               </p>
-            )}
-
-            {comentaris
-              .slice(0, 4) // Mostrem els 4 primers comentaris, canvia si vols últims
-              .map(({ id, text, valoracio, nom }) => (
-                <article
-                  key={id}
-                  className="flex items-center justify-between bg-white p-2 rounded-lg border border-white"
-                  aria-label={`Comentari amb valoració de ${valoracio} estrelles per ${nom}`}
-                >
-                  {/* Estrelles */}
-                  <div
-                    className="flex space-x-1 text-yellow-400 text-2xl drop-shadow-sm font-semibold flex-shrink-0"
-                    aria-hidden="true"
-
+            ) : (
+              comentaris
+                .slice(0, 4) // mostra fins a 4 comentaris
+                .map(({ id, text, valoracio, nom }) => (
+                  <article
+                    key={id}
+                    className="flex items-center justify-between bg-white p-2 rounded-lg border border-white"
+                    aria-label={`Comentari amb valoració de ${valoracio} estrelles per ${nom}`}
                   >
-                    {[...Array(valoracio)].map((_, i) => (
-                      <span key={i}>★</span>
-                    ))}
-                    {[...Array(5 - valoracio)].map((_, i) => (
-                      <span key={i} className="text-gray-300">
-                        ★
-                      </span>
-                    ))}
-                  </div>
+                    {/* Estrelles */}
+                    <div
+                      className="flex space-x-1 text-yellow-400 text-2xl drop-shadow-sm font-semibold flex-shrink-0"
+                      aria-hidden="true"
+                    >
+                      {[...Array(valoracio)].map((_, i) => (
+                        <span key={i}>★</span>
+                      ))}
+                      {[...Array(5 - valoracio)].map((_, i) => (
+                        <span key={i} className="text-gray-300">
+                          ★
+                        </span>
+                      ))}
+                    </div>
 
-                  {/* Comentari */}
-                  <p className="mx-6 text-black text-lg font-semibold text-center flex-1 leading-snug break-words whitespace-pre-line">
-                    {text}
-                  </p>
+                    {/* Text comentari */}
+                    <p className="mx-6 text-black text-lg font-semibold text-center flex-1 leading-snug break-words whitespace-pre-line">
+                      {text}
+                    </p>
 
-                  {/* Nom */}
-                  <span className="text-black font-medium flex-shrink-0 ml-4 whitespace-nowrap">
-                    {nom}
-                  </span>
-                </article>
-              ))}
+                    {/* Nom */}
+                    <span className="text-black font-medium flex-shrink-0 ml-4 whitespace-nowrap">
+                      {nom}
+                    </span>
+                  </article>
+                ))
+            )}
           </div>
-
         </section>
         {/* El pastor */}
         <section
@@ -399,7 +383,7 @@ export default function RocGonzalez() {
         </section>
       </main>
       <footer
-         className="bg-green-100 text-green-900 text-sm px-6 py-8 mt-20"
+        className="bg-green-100 text-green-900 text-sm px-6 py-8 mt-20"
         role="contentinfo"
         aria-label="Peu de pàgina"
       >
