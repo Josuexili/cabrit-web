@@ -13,15 +13,11 @@ export default function Header() {
     { href: '#pastor', label: 'El pastor', title: 'Secció El pastor' },
     { href: '#ramat', label: 'El ramat', title: 'Secció El ramat' },
     { href: '#comentaris', label: 'Comentaris', title: 'Veure els comentaris' }
-
   ]
 
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-black/40 backdrop-blur-md">
-      <nav
-        className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between"
-        aria-label="Navegació principal"
-      >
+      <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between" aria-label="Navegació principal">
         <h1>
           <a
             href="#"
@@ -32,7 +28,6 @@ export default function Header() {
           </a>
         </h1>
 
-        {/* Menú de pantalla gran */}
         <ul className="hidden md:flex space-x-12 lg:space-x-8 text-forest-green-900 font-semibold text-lg lg:text-base">
           {menuItems.map(({ href, label, title }) => (
             <li key={href}>
@@ -43,7 +38,6 @@ export default function Header() {
           ))}
         </ul>
 
-        {/* Botó menú mòbil */}
         <button
           className="md:hidden text-forest-green-900 hover:text-forest-green-700 transition"
           onClick={() => setMenuObert(!menuObert)}
@@ -56,7 +50,6 @@ export default function Header() {
         </button>
       </nav>
 
-      {/* Menú mòbil desplegable */}
       <MobileMenu isOpen={menuObert} onClose={() => setMenuObert(false)} menuItems={menuItems} />
     </header>
   )

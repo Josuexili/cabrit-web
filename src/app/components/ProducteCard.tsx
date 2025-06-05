@@ -15,7 +15,7 @@ interface ProducteCardProps {
 
 export default function ProducteCard({ producte }: ProducteCardProps) {
   return (
-    <article className="border border-green-300 rounded-lg shadow-md p-8 flex flex-col md:flex-row items-center md:items-start gap-8 mb-12">
+    <article className="border border-green-300 bg-white rounded-lg shadow-md p-8 flex flex-col md:flex-row items-center md:items-start gap-8 mb-12">
       <img
         src={producte.imatge}
         alt={`${producte.nom}, carn de cabrit natural i saludable`}
