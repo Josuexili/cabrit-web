@@ -1,9 +1,8 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import Header from './components/Header'
 import Hero from './components/HeroSection'
-import Ramat from './components/RamatSection'
 import Productes from './components/ProductesSection'
 import Comentaris from './components/ComentarisSection'
 import Contacte from './components/ContactSection'

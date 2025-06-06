@@ -11,7 +11,7 @@ export default function Header() {
     { href: '#productes', label: 'Producte', title: 'Ves a la secció de productes' },
     { href: '#contacte', label: 'Contacte', title: 'Contacta amb mi' },
     { href: '#pastor', label: 'El pastor', title: 'Secció El pastor' },
-    { href: '#ramat', label: 'El ramat', title: 'Secció El ramat' },
+    
     { href: '#comentaris', label: 'Comentaris', title: 'Veure els comentaris' }
   ]
 
