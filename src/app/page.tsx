@@ -10,9 +10,10 @@ import Contacte from './components/ContactSection'
 import Pastor from './components/PastorSection'
 import Footer from './components/Footer'
 import Main from './components/Main'
+import CabritsSection from './components/QualitatSelection'
 
 export default function RocGonzalez() {
-  const [menuObert, setMenuObert] = useState(false)
+
 
   return (
     <>
@@ -22,9 +23,10 @@ export default function RocGonzalez() {
 
       <Main>
         <Hero />
-        <Ramat />
+        <CabritsSection />
+        
         <Productes />
-        <Comentaris />
+        <Comentaris /> 
         <Contacte />
         <Pastor />
       </Main>

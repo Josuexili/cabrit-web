@@ -5,8 +5,12 @@ module.exports = {
       fontFamily: {
         mochiy: ["'Mochiy Pop P One'", 'sans-serif'],
         rye: ["'Rye'", 'serif'],
+        cardo: ['Cardo', 'serif'],
       },
     },
   },
   plugins: [],
 }
+
+
+

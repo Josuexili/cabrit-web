@@ -14,12 +14,13 @@ export default function HeroSection() {
 
       {/* Logotip sobreposat */}
       <img
-        src="/imatges/logoroc.png"
-        alt="Cabreta transparent decorativa"
-        className="absolute top-88 left-1/8 w-48 md:w-64 lg:w-72 drop-shadow-lg pointer-events-none -rotate-6 transition-transform"
-        width={288}
-        height={288}
-      />
+  src="/imatges/logo2.png"
+  alt="Cabreta transparent decorativa"
+  className="absolute top-25 right-25 w-60 md:w-60 lg:w-60 drop-shadow-lg pointer-events-none rotate-15 transition-transform"
+  width={192}
+  height={192}
+/>
+
     </section>
   )
 }

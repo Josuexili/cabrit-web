@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Mochiy_Pop_P_One } from "next/font/google";
 import "./globals.css";
+<link
+  href="https://fonts.googleapis.com/css2?family=Cardo&display=swap"
+  rel="stylesheet"
+/>
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,6 +25,7 @@ const mochiy = Mochiy_Pop_P_One({
   subsets: ["latin"],
   display: "swap",
 });
+
 
 
 

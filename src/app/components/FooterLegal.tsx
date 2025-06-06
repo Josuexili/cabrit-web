@@ -105,7 +105,7 @@ const FooterLegal: React.FC = () => {
       <footer
         style={{
           textAlign: "center",
-          padding: 20,
+          padding: 1,
           backgroundColor: "#f5f5f5",
           bottom: 0,
           width: "100%",
