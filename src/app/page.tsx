@@ -10,6 +10,7 @@ import Pastor from './components/PastorSection'
 import Footer from './components/Footer'
 import Main from './components/Main'
 import CabritsSection from './components/QualitatSelection'
+import RamatSection from './components/RamatSection'
 
 export default function RocGonzalez() {
 
@@ -23,7 +24,7 @@ export default function RocGonzalez() {
       <Main>
         <Hero />
         <CabritsSection />
-        
+        <RamatSection />
         <Productes />
         <Comentaris /> 
         <Contacte />

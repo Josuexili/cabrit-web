@@ -20,7 +20,7 @@ export default function ContactSection() {
         <div className="flex flex-col items-center space-y-8 text-white text-xl font-medium">
           {/* Telèfon amb WhatsApp */}
           <a
-            href="https://wa.me/34666666666"
+            href="https://wa.me/34636969995"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center space-x-4 hover:text-green-400 transition"
@@ -33,16 +33,16 @@ export default function ContactSection() {
               width={32}
               height={32}
             />
-            <span className="text-2xl">+34 666 666 666</span>
+            <span className="text-2xl">+34 636 969 995</span>
           </a>
 
           {/* Correu electrònic */}
           <a
-            href="mailto:roc@example.com"
+            href="mailto:roc.gonzalez.11@gmail.com"
             className="hover:text-green-400 transition text-2xl"
-            title="Enviar correu electrònic a roc@example.com"
+            title="Enviar correu electrònic a roc.gonzalez.11@gmail.com"
           >
-            roc@example.com
+            roc.gonzalez.11@gmail.com
           </a>
         </div>
       </div>
