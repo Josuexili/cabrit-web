@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { Menu, X } from 'lucide-react'
-import MobileMenu from './MobileMenu'
+import MobileMenu from '../venta/MobileMenu'
 
 export default function Header() {
   const [menuObert, setMenuObert] = useState(false)
@@ -11,6 +11,8 @@ export default function Header() {
     { href: '#productes', label: 'Producte', title: 'Ves a la secció de productes' },
     { href: '#contacte', label: 'Contacte', title: 'Contacta amb mi' },
     { href: '#pastor', label: 'El pastor', title: 'Secció El pastor' },
+    { href: '#vendadirecta', label: '', title: 'Secció El pastor' },
+    { href: '#cabritllibertat', label: 'El Cabrit en llibertat', title: 'Secció Cabrit en llibertat' },
     
     { href: '#comentaris', label: 'Comentaris', title: 'Veure els comentaris' }
   ]

@@ -2,8 +2,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Rye&display=swap');
 @import "tailwindcss";
 
-
-
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -13,7 +11,6 @@
   --font-mono: var(--font-geist-mono);
 }
 
-
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -22,22 +19,14 @@
 }
 
 body {
- 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-color: transparent; /* o transparent si vols */
+  background-color: transparent;
 }
-
 
 .rye-title {
   font-family: 'Rye', Arial, Helvetica, sans-serif;
-
 }
-
-
-
-
-
 

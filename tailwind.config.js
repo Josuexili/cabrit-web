@@ -6,11 +6,9 @@ module.exports = {
         mochiy: ["'Mochiy Pop P One'", 'sans-serif'],
         rye: ["'Rye'", 'serif'],
         cardo: ['Cardo', 'serif'],
+        sans: ['Inter', 'Helvetica', 'Arial', 'sans-serif'], // font per defecte
       },
     },
   },
   plugins: [],
 }
-
-
-
