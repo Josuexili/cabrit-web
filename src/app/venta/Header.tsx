@@ -11,9 +11,9 @@ export default function Header() {
     { href: '#productes', label: 'Productes', title: 'Ves a la secció de productes' },
     { href: '#contacte', label: 'Contacte', title: 'Contacta amb mi' },
     { href: '#vendadirecta', label: 'Comprar', title: 'Compra directa' },
-    { href: '#pastor', label: 'El pastor', title: 'Qui hi ha darrere' },
-    { href: '#ramatllibertat', label: 'El ramat', title: 'Ramat en llibertat' },
-    { href: '#receptes', label: 'Receptes', title: 'Receptes de cuina' }
+    { href: '/pastor', label: 'El pastor', title: 'Qui hi ha darrere' },
+    { href: '/ramat', label: 'El ramat', title: 'Pagin el ramat' },
+    { href: '/receptes', label: 'Receptes', title: 'Receptes de cuina' }
   ]
 
   return (

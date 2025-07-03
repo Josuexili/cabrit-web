@@ -22,12 +22,12 @@ export default function SeccioValorCabrit() {
             Carn autèntica, sabor impecable
           </h3>
           <p className="text-[15px] md:text-base leading-relaxed tracking-normal">
-            <Link href="#pastor" className="text-[#8B0000] underline hover:text-[#B22222]">En Roc</Link> no té una fàbrica. Té un ramat.  
+            <Link href="/pastor" className="text-[#8B0000] underline hover:text-[#B22222]">En Roc</Link> no té una fàbrica. Té un ramat.  
             Cada dia surt amb les cabres a pasturar, coneix cada animal pel nom i és ell qui les ajuda a parir.  
             Cuida tot el procés amb les seves mans —des del primer dia fins que la carn arriba a casa teva.
             <br /><br />
             Aquí no hi ha intermediaris, ni presses, ni maquillatge.  
-            El seu <Link href="#ramatllibertat" className="text-[#8B0000] underline hover:text-[#B22222]">ramat</Link> viu en llibertat, com abans.
+            El seu <Link href="/ramat" className="text-[#8B0000] underline hover:text-[#B22222]">ramat</Link> viu en llibertat, com abans.
             <br /><br />
             I el resultat es nota: amb una bona <Link href="#receptes" className="text-[#8B0000] underline hover:text-[#B22222]">recepta</Link>, aquest cabrit no el podràs comparar amb cap altre.
             <br /><br />
