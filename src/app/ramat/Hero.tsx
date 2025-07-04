@@ -1,5 +1,8 @@
 'use client'
-import Carru from './Carru'
+
+
+
+import Carousel from './Carru'
 
 export default function HeroSection() {
   return (
@@ -9,7 +12,7 @@ export default function HeroSection() {
     >
       {/* Carrusel de fons */}
       <div className="absolute inset-0 z-0">
-        <Carru />
+        <Carousel />
       </div>
 
       {/* Text central */}
