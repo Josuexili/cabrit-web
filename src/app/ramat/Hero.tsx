@@ -15,7 +15,7 @@ export default function HeroSection() {
       {/* Text central */}
       <div className="absolute bottom-16 w-full z-10 text-center px-6">
         <h1 className="text-[#8B0000] text-3xl md:text-5xl font-bold drop-shadow-md mb-4">
-          Estan com una cabra!
+          Estan com una cabra! i mes que una cabra
         </h1>
       </div>
 
