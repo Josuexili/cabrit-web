@@ -1,5 +1,5 @@
 'use client'
-import Carousel from '../components/Carru'
+import Carousel from './Carru'
 
 export default function HeroSection() {
   return (
