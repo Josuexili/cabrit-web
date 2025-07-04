@@ -2,35 +2,19 @@
 
 import React from 'react'
 import Header from './Header'
-import Hero from './HeroSection'
-import Productes from './ProductesSection'
-import Comentaris from './ComentarisSection'
-import Contacte from '../venta/ContactSection'
-import Pastor from './PastorSection'
-import Footer from './Footer'
-import Main from './Main'
-import CabritsSection from './QualitatSelection'
-import RamatSection from './RamatSection'
+import Main from '../components/Main'
+import Footer from '../components/Footer'
 
 export default function RocGonzalez() {
-
-
   return (
     <>
       <Header />
-      
-      {/* Menú mòbil */}
-
+      {/* Menú mòbil (si cal afegir-lo aquí) */}
       <Main>
-        <Hero />
-        <CabritsSection />
-        <RamatSection />
-        <Productes />
-        <Comentaris /> 
-        <Contacte />
-        <Pastor />
+        {/* Add your main content here */}
+        {/* Example content to satisfy the children prop */}
+        <div></div>
       </Main>
-      
       <Footer />
     </>
   )
