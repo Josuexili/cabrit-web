@@ -3,6 +3,7 @@
 import React from 'react'
 import Header from './Header'
 import Hero from './HeroSection'
+import Hero2 from './Hero2Section'
 import Productes from './ProductesSection'
 import Contacte from './ContactSection'
 import Footer from '../components/Footer'
@@ -16,6 +17,7 @@ export default function LandingVenda() {
       <Header />
 
       <Main>
+        <Hero2 />
         <Hero />
         <SeccioValorCabrit />
         <Productes />

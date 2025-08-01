@@ -4,7 +4,7 @@ import React from 'react'
 import Header from './Header'
 import Main from '../components/Main'
 import Footer from '../components/Footer'
-import Receptes from './ReceptesCabrit'
+import Neteja from './NetejaForestal'
 
 export default function RocGonzalez() {
   return (
@@ -12,7 +12,7 @@ export default function RocGonzalez() {
       <Header />
       
       <Main>
-       <Receptes />
+       <Neteja />
       </Main>
       <Footer />
     </>

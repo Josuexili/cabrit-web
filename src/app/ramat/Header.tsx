@@ -1,58 +1,100 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Menu, X } from 'lucide-react'
-import MobileMenu from '../venta/MobileMenu'
+import { Menu, X, Instagram } from 'lucide-react'
+import { MessageCircleMore } from 'lucide-react' // Si vols una icona tipus WhatsApp
+import { Mail } from 'lucide-react'
+
+import MobileMenu from './MobileMenu'
+import Image from 'next/image'
 
 export default function Header() {
   const [menuObert, setMenuObert] = useState(false)
 
   const menuItems = [
-    { href: '#productes', label: 'Producte', title: 'Ves a la secció de productes' },
-    { href: '#contacte', label: 'Contacte', title: 'Contacta amb mi' },
-    { href: '#pastor', label: 'El pastor', title: 'Secció El pastor' },
-    { href: '#vendadirecta', label: '', title: 'Secció El pastor' },
-    { href: '#cabritllibertat', label: 'El Cabrit en llibertat', title: 'Secció Cabrit en llibertat' },
-    
-    { href: '#comentaris', label: 'Comentaris', title: 'Veure els comentaris' }
+    { href: '#productes', label: 'Productes', title: 'Compra cabrit' },
+    { href: '#contacte', label: 'Contacte', title: 'Contacta amb nosaltres' },
+    { href: '/ramat', label: 'El ramat', title: 'Descobreix el ramat' },
+    { href: '/pastor', label: 'El pastor', title: 'Descobreix el pastor' },
+    { href: '/receptes', label: 'Receptes', title: 'Veure les receptes' },
+    { href: '/neteja' , label: 'Neteja', title: 'Neteja forestal' },
+
   ]
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-black/40 backdrop-blur-md">
-      <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between" aria-label="Navegació principal">
-        <h1>
-          <a
-            href="#"
-            className="text-2xl lg:text-xl font-mochiy text-forest-green-900 font-bold tracking-wide"
-            title="Inici - Cabrits del Roc"
-          >
-            Cabrits del Roc
+    <header className="fixed top-0 left-0 w-full z-50 bg-transparent">
+      <nav
+        className="px-0 py-0 pr-5 flex items-start justify-between"
+        aria-label="Navegació principal"
+      >
+        {/* LOGO */}
+        <div className="flex items-start gap-3">
+          <a href="/" title="Inici">
+            <Image
+              src="/imatges/logo01.png"
+              alt="Logo Cabrits del Roc"
+              width={100}
+              height={100}
+              className="rounded-full"
+            />
           </a>
-        </h1>
+        </div>
 
-        <ul className="hidden md:flex space-x-12 lg:space-x-8 text-forest-green-900 font-semibold text-lg lg:text-base">
-          {menuItems.map(({ href, label, title }) => (
-            <li key={href}>
-              <a href={href} className="hover:text-forest-green-700 transition" title={title}>
-                {label}
-              </a>
-            </li>
-          ))}
-        </ul>
-
+        {/* BOTÓ MENÚ SEMPRE VISIBLE */}
         <button
-          className="md:hidden text-forest-green-900 hover:text-forest-green-700 transition"
+          className="text-black hover:text-[#FFDADA] transition absolute right-7 top-4"
           onClick={() => setMenuObert(!menuObert)}
           aria-label={menuObert ? 'Tancar menú' : 'Obrir menú'}
           aria-expanded={menuObert}
           aria-controls="menu-mobil"
           type="button"
         >
-          {menuObert ? <X size={28} /> : <Menu size={28} />}
+          {menuObert ? <X size={45} /> : <Menu size={45} />}
         </button>
+        <a
+          href="mailto:info@eltevaempresa.com"
+          className="absolute right-24 top-5 text-blue-500 hover:text-pink-600 transition"
+          title="Envia'ns un correu"
+        >
+          <Mail size={32} />
+         
+        </a>
+        <a
+          href="https://instagram.com/el_teu_instagram"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute right-47 top-5 text-black-500 hover:text-pink-600 transition"
+          title="Instagram"
+        >
+          <Instagram size={31} />
+        </a>
+        <a
+          href="https://wa.me/34636969995" // Substitueix pel teu número (sense espais ni +)
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute right-35 top-5 text-green-500 hover:text-green-600 transition"
+          title="Contacta per WhatsApp"
+        >
+          <MessageCircleMore size={32} />
+        </a>
+
+
       </nav>
 
-      <MobileMenu isOpen={menuObert} onClose={() => setMenuObert(false)} menuItems={menuItems} />
+      {/* MENÚ MÒBIL (sempre com a menú principal) */}
+      <MobileMenu
+        isOpen={menuObert}
+        onClose={() => setMenuObert(false)}
+        menuItems={[
+          ...menuItems,
+          {
+            href: 'https://instagram.com/el_teu_instagram',
+            label: <Instagram size={22} />,
+            title: 'Instagram',
+            external: true,
+          },
+        ]}
+      />
     </header>
   )
 }

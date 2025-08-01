@@ -10,9 +10,9 @@ const PastorSection: React.FC = () => {
     >
       <h2
         id="pastor-title"
-        className="text-4xl font-semibold mb-12 text-center tracking-wide"
+        className="text-2xl font-semibold mb-12 text-center tracking-wide"
       >
-        El pastor
+        
       </h2>
 
       <div className="flex flex-col md:flex-row items-center md:items-start gap-12 px-4 md:px-0">
